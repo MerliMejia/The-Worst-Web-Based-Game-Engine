@@ -15,18 +15,30 @@ window.onload = () => {
       h: 50,
       w: 50
     },
-    bgColor: 'red'
+    bgColor: 'red',
+    position: {
+      x: 400,
+      y: 400
+    }
   });
 
   setInterval(() => {
-    const newPosition = {
-      x: Math.floor(Math.random() * 800),
-      y: Math.floor(Math.random() * 600)
-    };
-    square.update({
-      size: square.props.size,
-      position: newPosition
-    });
-    console.log(newPosition);
+    //randomly move the square
+    const direction = Math.floor(Math.random() * 4);
+    const speed = 50;
+    switch (direction) {
+      case 0:
+        square.nodeTransform.move('up', speed);
+        break;
+      case 1:
+        square.nodeTransform.move('down', speed);
+        break;
+      case 2:
+        square.nodeTransform.move('left', speed);
+        break;
+      case 3:
+        square.nodeTransform.move('right', speed);
+        break;
+    }
   }, 1000);
 };
