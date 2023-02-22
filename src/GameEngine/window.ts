@@ -19,7 +19,7 @@ const GameWindow = ({ gameContainer, size }: GameWindowProps) => {
       size: element.size,
       bgColor: element.bgColor,
       borderColor: element.borderColor,
-      initialPosition: element.initialPosition
+      position: element.position
     });
 
     windowElement.appendChild(newNode.node);

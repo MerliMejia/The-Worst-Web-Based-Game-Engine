@@ -25,7 +25,7 @@ window.onload = () => {
     };
     square.update({
       size: square.props.size,
-      initialPosition: newPosition
+      position: newPosition
     });
     console.log(newPosition);
   }, 1000);

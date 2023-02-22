@@ -4,17 +4,17 @@ export type NodeProps = {
   size: Size;
   bgColor?: string;
   borderColor?: string;
-  initialPosition?: Position;
+  position?: Position;
 };
 
 export type NodeType = ({
   size,
   bgColor,
   borderColor,
-  initialPosition
+  position
 }: NodeProps) => HTMLDivElement;
 
-const Node = ({ size, bgColor, borderColor, initialPosition }: NodeProps) => {
+const Node = ({ size, bgColor, borderColor, position }: NodeProps) => {
   const node = document.createElement('div');
   const update = (newProps: NodeProps) => {
     node.style.width = `${newProps.size.w}px`;
@@ -22,19 +22,19 @@ const Node = ({ size, bgColor, borderColor, initialPosition }: NodeProps) => {
     if (newProps.bgColor) node.style.backgroundColor = newProps.bgColor;
     if (newProps.borderColor) node.style.borderColor = newProps.borderColor;
     node.style.position = 'relative';
-    if (newProps.initialPosition) {
-      node.style.left = `${newProps.initialPosition.x}px`;
-      node.style.top = `${newProps.initialPosition.y}px`;
+    if (newProps.position) {
+      node.style.left = `${newProps.position.x}px`;
+      node.style.top = `${newProps.position.y}px`;
     } else {
       node.style.left = '0px';
       node.style.top = '0px';
     }
   };
-  node.style.transition = 'all 0.5s ease-in-out';
+  node.style.transition = 'all 0.5s linear';
 
-  update({ size, bgColor, borderColor, initialPosition });
+  update({ size, bgColor, borderColor, position });
   return {
-    props: { size, bgColor, borderColor, initialPosition },
+    props: { size, bgColor, borderColor, position },
     node,
     update
   };
