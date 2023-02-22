@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "outDir": "public/dist",
+    "module": "es6",
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts"]
+}
