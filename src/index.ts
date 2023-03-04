@@ -1,4 +1,3 @@
-import Node, { NodeProps } from './GameEngine/node.js';
 import GameWindow from './GameEngine/window.js';
 
 window.onload = () => {
@@ -22,22 +21,21 @@ window.onload = () => {
     }
   });
 
-  square.nodeInput.onKeyDown((e) => {
-    const key = e.key;
-    const speed = 50;
-    switch (key) {
-      case 'w':
-        square.nodeTransform.move('up', speed);
-        break;
-      case 's':
-        square.nodeTransform.move('down', speed);
-        break;
-      case 'a':
-        square.nodeTransform.move('left', speed);
-        break;
-      case 'd':
-        square.nodeTransform.move('right', speed);
-        break;
+  game.init();
+  const speed = 4;
+  game.update((deltaTime) => {
+    // console.log(deltaTime);
+    if (game.isKeyPressed('w')) {
+      square.nodeTransform.move('up', speed);
+    }
+    if (game.isKeyPressed('s')) {
+      square.nodeTransform.move('down', speed);
+    }
+    if (game.isKeyPressed('a')) {
+      square.nodeTransform.move('left', speed);
+    }
+    if (game.isKeyPressed('d')) {
+      square.nodeTransform.move('right', speed);
     }
   });
 };

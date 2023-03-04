@@ -17,7 +17,6 @@ export type NodeType = {
   node: HTMLDivElement;
   update: (newProps: NodeProps) => void;
   nodeTransform: NodeTransformType;
-  nodeInput: NodeInputType;
 };
 
 export type NodeTransformType = {
@@ -70,16 +69,6 @@ const NodeTransform = (node: Omit<NodeType, 'nodeTransform' | 'nodeInput'>) => {
   };
 };
 
-export interface NodeInputType {
-  onKeyDown: (callback: (event: KeyboardEvent) => void) => void;
-}
-
-const nodeInput: NodeInputType = {
-  onKeyDown: (callback) => {
-    window.addEventListener('keydown', callback);
-  }
-};
-
 const Node = ({
   size,
   bgColor,
@@ -104,7 +93,6 @@ const Node = ({
       node.style.top = '0px';
     }
   };
-  node.style.transition = 'all 0.1s linear';
 
   update({ size, bgColor, borderColor, position });
 
@@ -118,8 +106,7 @@ const Node = ({
 
   return {
     ...toReturn,
-    nodeTransform,
-    nodeInput
+    nodeTransform
   };
 };
 
