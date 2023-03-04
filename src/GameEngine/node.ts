@@ -17,13 +17,14 @@ export type NodeType = {
   node: HTMLDivElement;
   update: (newProps: NodeProps) => void;
   nodeTransform: NodeTransformType;
+  nodeInput: NodeInputType;
 };
 
 export type NodeTransformType = {
   move: (direction: 'up' | 'down' | 'left' | 'right', speed: number) => void;
 };
 
-const NodeTransform = (node: Omit<NodeType, 'nodeTransform'>) => {
+const NodeTransform = (node: Omit<NodeType, 'nodeTransform' | 'nodeInput'>) => {
   const move = (direction: 'up' | 'down' | 'left' | 'right', speed: number) => {
     if (!node.props.position) {
       node.props.position = { x: 0, y: 0 };
@@ -33,7 +34,7 @@ const NodeTransform = (node: Omit<NodeType, 'nodeTransform'>) => {
         node.update({
           position: {
             x: node.props.position.x,
-            y: node.props.position.y - 1 * speed
+            y: (node.props.position.y -= 1 * speed)
           }
         });
         break;
@@ -69,6 +70,16 @@ const NodeTransform = (node: Omit<NodeType, 'nodeTransform'>) => {
   };
 };
 
+export interface NodeInputType {
+  onKeyDown: (callback: (event: KeyboardEvent) => void) => void;
+}
+
+const nodeInput: NodeInputType = {
+  onKeyDown: (callback) => {
+    window.addEventListener('keydown', callback);
+  }
+};
+
 const Node = ({
   size,
   bgColor,
@@ -93,7 +104,7 @@ const Node = ({
       node.style.top = '0px';
     }
   };
-  node.style.transition = 'all 0.5s linear';
+  node.style.transition = 'all 0.1s linear';
 
   update({ size, bgColor, borderColor, position });
 
@@ -107,7 +118,8 @@ const Node = ({
 
   return {
     ...toReturn,
-    nodeTransform
+    nodeTransform,
+    nodeInput
   };
 };
 

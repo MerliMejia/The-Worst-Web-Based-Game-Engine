@@ -22,23 +22,22 @@ window.onload = () => {
     }
   });
 
-  setInterval(() => {
-    //randomly move the square
-    const direction = Math.floor(Math.random() * 4);
+  square.nodeInput.onKeyDown((e) => {
+    const key = e.key;
     const speed = 50;
-    switch (direction) {
-      case 0:
+    switch (key) {
+      case 'w':
         square.nodeTransform.move('up', speed);
         break;
-      case 1:
+      case 's':
         square.nodeTransform.move('down', speed);
         break;
-      case 2:
+      case 'a':
         square.nodeTransform.move('left', speed);
         break;
-      case 3:
+      case 'd':
         square.nodeTransform.move('right', speed);
         break;
     }
-  }, 1000);
+  });
 };
