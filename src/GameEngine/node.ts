@@ -1,3 +1,4 @@
+import NodeImage, { NodeImageType } from './image.js';
 import { Position, Size } from './utils.js';
 
 export type NodeProps = {
@@ -5,25 +6,24 @@ export type NodeProps = {
   bgColor?: string;
   borderColor?: string;
   position?: Position;
+  text?: string;
 };
 
 export type NodeType = {
-  props: {
-    size: Size;
-    bgColor: string;
-    borderColor: string;
-    position: Position;
-  };
+  props: NodeProps;
   node: HTMLDivElement;
   update: (newProps: NodeProps) => void;
   nodeTransform: NodeTransformType;
+  nodeImage: NodeImageType;
 };
 
 export type NodeTransformType = {
   move: (direction: 'up' | 'down' | 'left' | 'right', speed: number) => void;
 };
 
-const NodeTransform = (node: Omit<NodeType, 'nodeTransform' | 'nodeInput'>) => {
+const NodeTransform = (
+  node: Omit<NodeType, 'nodeTransform' | 'nodeInput' | 'nodeImage'>
+) => {
   const move = (direction: 'up' | 'down' | 'left' | 'right', speed: number) => {
     if (!node.props.position) {
       node.props.position = { x: 0, y: 0 };
@@ -73,7 +73,8 @@ const Node = ({
   size,
   bgColor,
   borderColor,
-  position
+  position,
+  text
 }: NodeProps): NodeType => {
   const node = document.createElement('div');
 
@@ -88,13 +89,11 @@ const Node = ({
     if (newProps.position) {
       node.style.left = `${newProps.position.x}px`;
       node.style.top = `${newProps.position.y}px`;
-    } else {
-      node.style.left = '0px';
-      node.style.top = '0px';
     }
+    if (newProps.text) node.innerText = newProps.text;
   };
 
-  update({ size, bgColor, borderColor, position });
+  update({ size, bgColor, borderColor, position, text });
 
   const toReturn = {
     props: { size, bgColor, borderColor, position },
@@ -103,10 +102,16 @@ const Node = ({
   };
 
   const nodeTransform = NodeTransform(toReturn);
+  const nodeImage = NodeImage();
+
+  nodeImage.onImagedLoaded(() => {
+    node.appendChild(nodeImage.imageNode);
+  });
 
   return {
     ...toReturn,
-    nodeTransform
+    nodeTransform,
+    nodeImage
   };
 };
 

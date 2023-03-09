@@ -2,3 +2,8 @@
   border-style: solid;
   border-color: red;
 }
+
+#frames {
+  background-color: darkblue;
+  width: fit-content;
+}
